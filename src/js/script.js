@@ -4,6 +4,7 @@ const incButton =  document.querySelector(".inc__button");
 const numberDisplay =  document.querySelector(".number__display");
 const wheel = document.querySelector(".wheel");
 const startButton = document.querySelector(".button__start");
+const svgEl = document.querySelector('svg');
 let numberOfContestants = 3;
 
 // Initialise a random number variable. As zero.
@@ -31,10 +32,6 @@ const getCoordinatesForPercent = (percent) => {
 	return [x, y];
 }
 
-const svgEl = document.querySelector('svg');
-
-startButton.addEventListener('click', spinWheel, false);
-
 const createWheel = () => {
 	if (!numberOfContestants || numberOfContestants < 2 || numberOfContestants > 7) {
 		return;
@@ -49,8 +46,6 @@ const createWheel = () => {
 	Array(numberOfContestants)
 		.fill(1)
 		.forEach((_, i) => {
-			console.log(i);
-			// destructuring assignment sets the two variables at once
 			const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
 
 			// each slice starts where the last slice ended, so keep a cumulative percent
@@ -93,6 +88,7 @@ const decNumber = () => {
 	numberOfContestants -= 1;
 	updateNumber();
 };
+
 const incNumber = () => {
 	if (numberOfContestants === 7) {
 		return;
@@ -101,7 +97,12 @@ const incNumber = () => {
 	updateNumber();
 }
 
-numberDisplay.textContent = numberOfContestants;
-createWheel();
-decButton.addEventListener('click', decNumber, false);
-incButton.addEventListener('click', incNumber, false);
+const init = () => {
+	decButton.addEventListener('click', decNumber, false);
+	incButton.addEventListener('click', incNumber, false);
+	startButton.addEventListener('click', spinWheel, false);
+	numberDisplay.textContent = numberOfContestants;
+	createWheel();
+}
+
+init();
